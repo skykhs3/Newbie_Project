@@ -9,6 +9,55 @@ const cookieParser =require('cookie-parser')
 const config =require('./config/key')
 const {auth} =require('./middleware/auth')
 
+const port = 5000
+var server=app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+
+// //socket 부분
+// const http = require('http');
+// const socketIO = require('socket.io');
+
+// // localhost 포트 설정
+// const socketPort = 4002;
+
+
+// socketio 생성후 서버 인스턴스 사용
+app.io = require('socket.io').listen(server)
+//io.on()
+
+// socketio 문법
+// app.io.on('connection', socket => {
+// 	console.log('User connected');
+// 	socket.on('disconnect', () => {
+// 		console.log('User disconnect');
+// 	});
+// });
+app.io.on('connection', socket => {
+	socket.on('send message', (item) => {
+		const msg = item.name + ' : ' + item.message;
+		console.log(msg);
+		app.io.emit('receive message', {name:item.name, message:item.message});
+	});
+    socket.on('disconnect', function () {
+		console.log('user disconnected: ', socket.id);
+	});
+});
+
+//server.listen(socketPort, () => console.log(`Listening on port ${socketPort}`))
+
+// io.on('connection', socket => {
+// 	socket.on('send message', (item) => {
+// 		const msg = item.name + ' : ' + item.message;
+// 		console.log(msg);
+// 		io.emit('receive message', {name:item.name, message:item.message});
+// 	});
+//     socket.on('disconnect', function () {
+// 		console.log('user disconnected: ', socket.id);
+// 	});
+// });
+///소켓 코드 종료
+
 //application/x-www-form-urlencoded
 app.use(bodyParse.urlencoded({extended:true}));
 
@@ -24,12 +73,12 @@ mongoose.connect(config.mongoURI,{
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!~ 안녕하세요~')
+  res.send('안녕하세요~')
 })
 app.get('/api/hello',(req,res)=>{
   
   res.send(
-    '안녕2ç'
+    '안녕'
   )
 })
 
@@ -91,7 +140,6 @@ app.get('/api/users/auth',auth,(req,res)=>{
     lastname:req.user.lastname,
     role:req.user.role,
     image:req.user.image
-
   })
 })
 app.get('/api/users/logout',auth,(req,res)=>{
@@ -104,9 +152,4 @@ app.get('/api/users/logout',auth,(req,res)=>{
       success:true
     })
   })
-})
-
-const port = 5000
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
 })

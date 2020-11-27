@@ -8,9 +8,34 @@ import { applyMiddleware ,createStore} from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './_reducers'
+import { createMuiTheme } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import socketio from 'socket.io-client';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware,ReduxThunk)(createStore)
 
+const theme = createMuiTheme({
+  palette: {
+     primary: {
+      //  light: '#fff',
+        main: 'rgb(234, 159, 57)',
+     //   dark: '#000'
+     },
+      secondary: {
+        main: '#f44336',
+      },
+  },
+  typography: { 
+     useNextVariants: true
+  },
+  overrides: {
+    MuiButton: {
+      raisedPrimary: {
+        color: 'white',
+      },
+    },
+  }
+});
 ReactDOM.render(
 
 
@@ -19,7 +44,8 @@ ReactDOM.render(
       window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__()
       )}>
-      <App />
+        <MuiThemeProvider theme = { theme }>   <App /></MuiThemeProvider>
+   
     </Provider>
 
   </React.StrictMode>,
@@ -30,3 +56,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

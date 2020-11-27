@@ -8,25 +8,19 @@ import {
 import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
+import Auth from './hoc/auth'
+import { REGISTER_USER } from './_actions/types';
+
 
 function App() {
     return (
         <Router>
       <div>
 
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
-          <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <Route exact path="/register">
-            <RegisterPage />
-          </Route>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
+          <Route exact path="/login" component={Auth(LoginPage,false)}/>
+          <Route exact path="/register" component={Auth(RegisterPage,false)}/>
+          <Route exact path="/" component={Auth(LandingPage,true)}/>
         </Switch>
       </div>
     </Router>
