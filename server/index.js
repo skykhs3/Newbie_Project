@@ -73,21 +73,12 @@ app.use(bodyParse.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-  res.send('안녕하세요~')
+  res.send('2019204 김현수의 백엔드 서버 호스팅중')
 })
-app.get('/api/hello',(req,res)=>{
-  
-  res.send(
-    '안녕'
-  )
-})
-
 
 app.post('/api/users/register', (req,res)=>{
   //회원 가입에 필요한 정보들을 client에서 가져오면 그것들을 데이터 베이스에 넣어준다.
   const user = new User(req.body)
-
-  
 
   user.save((err,userInfo)=>{
     if(err) return res.json({success:false,err})
