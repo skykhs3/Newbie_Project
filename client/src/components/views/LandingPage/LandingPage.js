@@ -16,7 +16,7 @@ import StarIcon from "@material-ui/icons/Star"
 import FavoriteIcon from "@material-ui/icons/Favorite"
 import SendIcon from '@material-ui/icons/Send';
 
-const socket = socketIOClient('localhost:45000');
+const socket = socketIOClient('http://localhost:5000');
 function parseTime(time) {
   var res = time.split(" ");
   return time.substring(0, 16);
