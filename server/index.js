@@ -18,7 +18,7 @@ const messageSchema = new mongoose.Schema({
   content:String,
   name:String,
   email:String,
-  date:Date
+  date:String
 })
 
 //이게 이름이구나. s가 붙고, 소문자가 된다.
@@ -28,6 +28,7 @@ const messageModel = mongoose.model('message',messageSchema);
 const port = 5000
 var server=app.listen(port, async() => {
   console.log(`Example app listening at http://localhost:${port}`)
+ 
 })
 
 
@@ -45,11 +46,14 @@ app.io.on('connection', socket => {
     const msg = item.name+ " "+item.email + ' : ' + item.message;
 
 
-		console.log(msg);
-    
-    
+    console.log(msg);
 
-    const todo= new messageModel({content:item.message,name:item.name,email:item.email,date:Date.now()});
+    var moment = require('moment');
+    
+  
+    console.log(  moment().format("YYYY MM DD HH mm ss"));
+
+    const todo= new messageModel({content:item.message,name:item.name,email:item.email,date:moment().format("YYYY MM DD HH mm ss")});
     await todo.save();
   
 
