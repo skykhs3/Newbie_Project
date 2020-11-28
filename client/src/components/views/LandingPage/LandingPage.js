@@ -7,28 +7,6 @@ import { Message } from '@material-ui/icons'
 import socketIOClient from "socket.io-client";
 import {useDispatch} from 'react-redux'
 import {auth} from '../../../_actions/user_action';
-// function LandingPage(props) {
-
-
-
-//     useEffect(() => {
-//         axios.get('/api/hello').then(response=>console.log(response.data))
-//     }, [])
-//     return (
-//         <div>
-
-//         <button onClick={onClickHandler}>
-//             Sign Out
-//             </button>
-// <div style={{flex:"0 1 90%", background:"dodgerblue"}} ></div>
-//             <input className="messengerBox"
-//             plasceholder="Send a message..."
-//             type="text"
-//             >
-//                 </input>
-//         </div>
-//     )
-// }
 
 class Msg {
     constructor(name,Message){
@@ -38,21 +16,32 @@ class Msg {
 }
 const socket = socketIOClient('localhost:5000');
 class LandingPage extends React.Component{
-
-   
-
     constructor(props){
         super(props);
         this.state={
           email:"",
-            name:'',
+            nickName:'',
+            name:"",
             value:"",
             messageList:[],
         }
     }
+    componentDidMount(){
+      //  const dispatch=useDispatch();
+      socket.emit('reset',);
+        socket.on('receive message', (res) => {
+          console.log("Receive msg");
+          console.log(res);
+          this.setState({messageList:res});
+        // / this.messageList=
+        });
+        const data=axios.get('/api/users/auth').then(response=>response.data);
+        data.then(res=>{this.setState({email:res.email,name:res.name});})
+    }
+
     onSubmitHandler=(e)=>{
       e.preventDefault();
-      socket.emit('send message', { name: this.state.name, message: this.state.value });
+      socket.emit('send message', { name: this.state.name, message: this.state.value,email:this.state.email });
     };
     onChangeHanler=(event)=>{
       this.setState({[event.target.name]:event.target.value});
@@ -71,24 +60,14 @@ class LandingPage extends React.Component{
             }
         )
     }
-    componentDidMount(){
-    //  const dispatch=useDispatch();
-      socket.on('receive message', () => {
-        console.log("Receive msg");
-      });
-      auth();
-      // auth().then(response=>{
-      //           //adminRoute가 true 홈페이지는 무조건 접근 가능, false면 무조건 접근 불가능
-      //           this.setState({email:response.payload.email});
-      //       });
-    }
+    
     render(){
         return (
             <div className="App">
             <section className="chat-list">
                   <div className="message">
-                    <p className="username">username</p>
-                    <p className="message-text">message</p>
+        <p className="username">User Email : {this.state.email}</p>
+                    <p className="message-text">User Name : {this.state.name}</p>
                   </div>
             </section>
             <button onClick={this.onClickHandler}>Log out</button>
@@ -100,8 +79,8 @@ class LandingPage extends React.Component{
                   type="text"
                   autoComplete="off"
                   onChange={this.onChangeHanler}
-                  name="name"
-                  value={this.state.name}
+                  name="nickName"
+                  value={this.state.nickName}
                   placeholder="유저이름"
                 />
                 <input
@@ -114,6 +93,11 @@ class LandingPage extends React.Component{
                 />
               </div>
               <button type="submit">입력하기</button>
+              <div>
+      {this.state.messageList.map(function(d, idx){
+         return (<li key={idx}>{d.name} : {d.content}</li>)
+       })}
+      </div>
             </form>
           </div>
         )
