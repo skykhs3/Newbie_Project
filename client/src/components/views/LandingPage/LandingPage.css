@@ -4,6 +4,10 @@
 }
 body{
     height:100%;
+    /* background-color: yellow; */
+}
+.App{
+   background-color:rgba(179, 199,216,0.6); 
 }
 .messengerBox{
     
@@ -15,7 +19,7 @@ body{
 }
 .messageList{
     margin:10px;
-    margin-bottom: 80px;
+    padding-bottom: 67px;
 }
 
 .toolbar {
@@ -34,7 +38,8 @@ body{
   @supports (backdrop-filter: blur(20px)) {
     .toolbar {
       border: none;
-      background-color: rgba(234, 159, 57, 0.8);
+      /* background-color: rgba(234, 159, 57, 0.8); */
+      background-color: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(20px);
     }
   }

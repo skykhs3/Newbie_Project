@@ -19,7 +19,7 @@
 @supports (backdrop-filter: blur(20px)) {
   .compose {
     border: none;
-    background-color: rgba(234, 159, 57, 0.8);
+    background-color: rgba(234, 159, 57, 0.7);
     backdrop-filter: blur(20px);
   }
 }
