@@ -24,6 +24,7 @@ function parseTime(time) {
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
+    this.mustScrollDown = true;
     this.state = {
       email: "",
       nickName: '',
@@ -34,18 +35,26 @@ class LandingPage extends React.Component {
   }
   componentDidMount() {
     //  const dispatch=useDispatch();
-    window.scrollTo(0,document.body.scrollHeight)
+    window.scrollTo(0, document.body.scrollHeight)
     socket.emit('reset',);
     socket.on('receive message', (res) => {
       console.log("Receive msg");
       console.log(res);
-      this.setState({ messageList: res });
-      // if(window.scrollY==document.body.scrollHeight)
-    //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //     // you're at the bottom of the page
-    //     window.scrollTo(0,document.body.scrollHeight)
-    // }
-      
+
+
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        this.setState({ messageList: res });
+        // you're at the bottom of the page
+
+        window.scrollTo(0, document.body.scrollHeight)
+      }
+      else {
+        this.setState({ messageList: res });
+      }
+      if (this.mustScrollDown) {
+        window.scrollTo(0, document.body.scrollHeight);
+        this.mustScrollDown = false;
+      }
       // / this.messageList=
     });
     const data = axios.get('/api/users/auth').then(response => response.data);
@@ -54,17 +63,17 @@ class LandingPage extends React.Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-  
-    console.log("C "+this.state.message);
+
+    console.log("C " + this.state.message);
     socket.emit('send message', { name: this.state.name, message: this.state.message, email: this.state.email });
-    this.setState({message:""});
-    window.scrollTo(0,document.body.scrollHeight)
+    this.setState({ message: "" });
+    this.mustScrollDown = true;
   };
   onChangeHanler = (event) => {
-    console.log("A "+this.state.message);
-    this.setState({message:event.target.value});
-    console.log("B "+this.state.message);
-  //  this.setState({ [event.target.name]: event.target.value });
+    console.log("A " + this.state.message);
+    this.setState({ message: event.target.value });
+    console.log("B " + this.state.message);
+    //  this.setState({ [event.target.name]: event.target.value });
   }
   onClickHandler = (event) => {
     axios.get('/api/users/logout').then(response => {
@@ -138,14 +147,14 @@ class LandingPage extends React.Component {
             <p className="message-text">User Name : {this.state.name}</p>
           </div></div>
           <h1 className="toolbar-title">Sparcs Chat</h1>
-          <div className="right-items"> 
-          
+          <div className="right-items">
 
-          <div onClick={this.onClickHandler}>
-          <IconButton  >
-      <ExitToAppIcon style={{fill: "white"} }stroke={"black"} stroke-width={1}/>
-    </IconButton>
-    </div>
+
+            <div onClick={this.onClickHandler}>
+              <IconButton  >
+                <ExitToAppIcon style={{ fill: "white" }} stroke={"black"} stroke-width={1} />
+              </IconButton>
+            </div>
           </div>
         </div>
         <div className="messageList">
@@ -162,10 +171,10 @@ class LandingPage extends React.Component {
           <ToolbarButton key="games" icon="ion-logo-game-controller-b" />,
           <ToolbarButton key="emoji" icon="ion-ios-happy" />
         ]}
-        message={this.state.message}
-        onSubmit={this.onSubmitHandler}
-        onChange={this.onChangeHanler}
-        test={"AAAB"}
+          message={this.state.message}
+          onSubmit={this.onSubmitHandler}
+          onChange={this.onChangeHanler}
+          test={"AAAB"}
         />
 
       </div>
