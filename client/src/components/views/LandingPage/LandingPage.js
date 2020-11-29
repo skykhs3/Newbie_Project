@@ -17,9 +17,14 @@ import FavoriteIcon from "@material-ui/icons/Favorite"
 import SendIcon from '@material-ui/icons/Send';
 
 const socket = socketIOClient("http://whale.sparcs.org:45000");
+//const socket = socketIOClient("localhost:5000");
 function parseTime(time) {
   var res = time.split(" ");
   return time.substring(0, 16);
+}
+function parseTime2(time) {
+  var res = time.split(" ");
+  return time.substring(0, 10);
 }
 class LandingPage extends React.Component {
   constructor(props) {
@@ -63,17 +68,12 @@ class LandingPage extends React.Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-
-    console.log("C " + this.state.message);
     socket.emit('send message', { name: this.state.name, message: this.state.message, email: this.state.email });
     this.setState({ message: "" });
     this.mustScrollDown = true;
   };
   onChangeHanler = (event) => {
-    console.log("A " + this.state.message);
     this.setState({ message: event.target.value });
-    console.log("B " + this.state.message);
-    //  this.setState({ [event.target.name]: event.target.value });
   }
   onClickHandler = (event) => {
     axios.get('/api/users/logout').then(response => {
@@ -95,15 +95,18 @@ class LandingPage extends React.Component {
     for (i = 0; i < this.state.messageList.length; i++) {
       messageComponentList.push(
         <XMessage key={i} data={this.state.messageList[i]} isMine={this.state.email === this.state.messageList[i].email ? true : false}
-          isShowName={i === 0 || this.state.messageList[i].email !== this.state.messageList[i - 1].email ? true : false}
+          isShowName={i === 0 || this.state.messageList[i].email !== this.state.messageList[i - 1].email ? true : false || parseTime(this.state.messageList[i-1].date)!==parseTime(this.state.messageList[i].date)}
           startsSequence={
-            i === 0 || this.state.messageList[i].email !== this.state.messageList[i - 1].email ? true : false
+            i === 0 || this.state.messageList[i].email !== this.state.messageList[i - 1].email || parseTime(this.state.messageList[i-1].date)!==parseTime(this.state.messageList[i].date)? true : false
           }
           endsSequence={
-            i === this.state.messageList.length - 1 || this.state.messageList[i].email !== this.state.messageList[i + 1].email ? true : false
+            i === this.state.messageList.length - 1 || this.state.messageList[i].email !== this.state.messageList[i + 1].email || parseTime(this.state.messageList[i+1].date)!==parseTime(this.state.messageList[i].date)? true : false
           }
           isShowTime={
             i === this.state.messageList.length - 1 || this.state.messageList[i].email !== this.state.messageList[i + 1].email || parseTime(this.state.messageList[i].date) !== parseTime(this.state.messageList[i + 1].date) ? true : false
+          }
+          showTimestamp={
+            i===0 || parseTime2(this.state.messageList[i-1].date)!==parseTime2(this.state.messageList[i].date) ? true:false
           }
         ></XMessage>
       );

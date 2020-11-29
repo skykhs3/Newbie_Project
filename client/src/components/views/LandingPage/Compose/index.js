@@ -42,6 +42,7 @@ export default class Compose extends React.Component {
             //  value={this.props.value}
               onChange={this.props.onChange}
         />
+        <div className="sizedBox"></div>
     <Button
     className="button"
               type="submit"

@@ -49,7 +49,8 @@ app.io.on('connection', socket => {
     console.log(msg);
 
     var moment = require('moment');
-    
+    require('moment-timezone');
+    moment.tz.setDefault("Asia/Seoul");
   
     console.log(  moment().format("YYYY MM DD HH mm ss"));
 
@@ -73,7 +74,7 @@ app.use(bodyParse.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-  res.send('2019204 김현수의 백엔드 서버 호스팅중')
+  res.send('20190204 김현수의 백엔드 서버 connected')
 })
 
 app.post('/api/users/register', (req,res)=>{

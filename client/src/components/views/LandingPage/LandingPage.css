@@ -8,6 +8,7 @@ body{
 }
 .App{
    background-color:rgba(179, 199,216,0.6); 
+   min-height: 100vh;
 }
 .messengerBox{
     

@@ -55,8 +55,11 @@
 }
 .button{
   /* flex:1; */
-  margin:100px;
+  padding:200px;
   flex-basis: 100px;
   display: inline;
   color:white;
+}
+.sizedBox{
+  padding: 5px;
 }

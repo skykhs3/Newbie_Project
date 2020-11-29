@@ -13,6 +13,12 @@ function parseTime(time){
     }
     return temp2+" "+(res[3]==12?res[3]:res[3]%12)+":"+res[4];
   }
+  function parseTime2(time){
+    var dayTable=['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+    var res = time.split(" ");
+    var today=new Date(res[0]+'-'+res[1]+'-'+res[2]).getDay();
+    return res[0]+" . "+res[1]+" . "+res[2]+" ( "+dayTable[today]+" ) ";
+  }
 export default function XMessage(props) {
     const {
         data,
@@ -21,8 +27,16 @@ export default function XMessage(props) {
         startsSequence,
         endsSequence,
         isShowTime,
+        showTimestamp
       } = props;
+  //     console.log(
+  //     [
   
+  //       'message',
+  // `${isMine ? 'mine' : ''}`,
+  // `${startsSequence ? 'start' : ''}`,
+  // `${endsSequence ? 'end' : ''}`
+  //     ].join(' '));
     return (
    
             <div className={[
@@ -31,14 +45,14 @@ export default function XMessage(props) {
         `${startsSequence ? 'start' : ''}`,
         `${endsSequence ? 'end' : ''}`
             ].join(' ')}>
-              {/* {
+              {
                 showTimestamp &&
                   <div className="timestamp">
-                    { friendlyTimestamp }
+                    { parseTime2(data.date) }
                   </div>
-              } */}
+              }
       
-      {isShowName===true?(<div className="bubble-container">
+      {isShowName===true && isMine===false?(<div className={(isMine?"bubble-name-mine":"bubble-name")}>
                 {data.name} ( {data.email} )
             </div>):null}
               <div className="bubble-container">
