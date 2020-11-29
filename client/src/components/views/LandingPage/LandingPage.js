@@ -9,8 +9,8 @@ import Compose from "./Compose"
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { IconButton } from "@material-ui/core"
 
-//const socket = socketIOClient("http://whale.sparcs.org:45000");
-const socket = socketIOClient("localhost:5000");
+const socket = socketIOClient("http://whale.sparcs.org:45000");
+//const socket = socketIOClient("localhost:5000");
 function parseTime(time) {
   return time.substring(0, 16);
 }
