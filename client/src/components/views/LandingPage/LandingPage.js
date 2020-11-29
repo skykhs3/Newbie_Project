@@ -16,7 +16,7 @@ import StarIcon from "@material-ui/icons/Star"
 import FavoriteIcon from "@material-ui/icons/Favorite"
 import SendIcon from '@material-ui/icons/Send';
 
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient("http://whale.sparcs.org:45000");
 function parseTime(time) {
   var res = time.split(" ");
   return time.substring(0, 16);
@@ -113,34 +113,6 @@ class LandingPage extends React.Component {
   render() {
     return (
       <div className="App">
-        <section className="chat-list">
-
-        </section>
-
-        {/* <form className="chat-form"
-          onSubmit={this.onSubmitHandler}>
-          <div className="chat-inputs">
-
-            <input
-              type="text"
-              autoComplete="off"
-              onChange={this.onChangeHanler}
-              name="nickName"
-              value={this.state.nickName}
-              placeholder="유저이름"
-            />
-            <input
-              type="text"
-              autoComplete="off"
-              onChange={this.onChangeHanler}
-              name="value"
-              value={this.state.value}
-              placeholder="메세지입력하기"
-            />
-          </div>
-          <button type="submit">입력하기</button>
-          </form> */}
-
         <div className="toolbar">
           <div className="left-items"> <div className="message">
             <p className="username">User Email : {this.state.email}</p>
