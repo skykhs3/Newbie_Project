@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './Message.css';
 
 function parseTime(time){
@@ -6,10 +6,10 @@ function parseTime(time){
 
     var temp2=" ";
     if(res[3]<12){
-        temp2="오전";
+        temp2="AM";
     }
     else{
-        temp2="오후";
+        temp2="PM";
     }
     return temp2+" "+(res[3]==12?res[3]:res[3]%12)+":"+res[4];
   }
@@ -29,6 +29,7 @@ export default function XMessage(props) {
         isShowTime,
         showTimestamp
       } = props;
+  //    console.log("출력할 메세지 : "+data.content)
   //     console.log(
   //     [
   
@@ -38,7 +39,7 @@ export default function XMessage(props) {
   // `${endsSequence ? 'end' : ''}`
   //     ].join(' '));
     return (
-   
+  <div>
             <div className={[
               'message',
         `${isMine ? 'mine' : ''}`,
@@ -68,7 +69,7 @@ export default function XMessage(props) {
                   </div>:null}
               </div>
             </div>
-        
+        </div>
     )
 }
 

@@ -10,7 +10,6 @@ import ReduxThunk from 'redux-thunk';
 import Reducer from './_reducers'
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import socketio from 'socket.io-client';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware,ReduxThunk)(createStore)
 

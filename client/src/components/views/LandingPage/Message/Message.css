@@ -1,3 +1,6 @@
+div{
+  white-space: pre-wrap;
+}
 .message {
   display: flex;
   flex-direction: column;

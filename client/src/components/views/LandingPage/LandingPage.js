@@ -1,35 +1,28 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
-import { Link } from "react-router-dom"
 import "./LandingPage.css"
 import socketIOClient from "socket.io-client";
-import { useDispatch } from 'react-redux'
-import { auth } from '../../../_actions/user_action';
 import XMessage from './Message'
 import ToolbarButton from './ToolbarButton'
 import Compose from "./Compose"
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { IconButton } from "@material-ui/core"
 
-import StarIcon from "@material-ui/icons/Star"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import SendIcon from '@material-ui/icons/Send';
-
-const socket = socketIOClient("http://whale.sparcs.org:45000");
-//const socket = socketIOClient("localhost:5000");
+//const socket = socketIOClient("http://whale.sparcs.org:45000");
+const socket = socketIOClient("localhost:5000");
 function parseTime(time) {
-  var res = time.split(" ");
   return time.substring(0, 16);
 }
 function parseTime2(time) {
-  var res = time.split(" ");
+ // var res = time.split(" ");
   return time.substring(0, 10);
 }
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.mustScrollDown = true;
+    this.mustClearTextField=false;
     this.state = {
       email: "",
       nickName: '',
@@ -72,8 +65,25 @@ class LandingPage extends React.Component {
     this.setState({ message: "" });
     this.mustScrollDown = true;
   };
-  onChangeHanler = (event) => {
+  onKeyDownHandler=(e)=>{
+    //console.log("A :"+this.state.message+": B");
+    if(e.key==='Enter' && !e.shiftKey && this.state.message!=="" ){
+      socket.emit('send message', { name: this.state.name, message: this.state.message, email: this.state.email });
+   
+    this.mustScrollDown = true;
+    this.mustClearTextField=true;
+    }
+    
+  }
+  onKeyUpHandler=()=>{
+    if(this.mustClearTextField){
+      this.setState({ message: '' });
+      this.mustClearTextField=false;
+    }
+  }
+  onChangeHandler = (event) => {
     this.setState({ message: event.target.value });
+    console.log("채팅입력 : "+event.target.value);
   }
   onClickHandler = (event) => {
     axios.get('/api/users/logout').then(response => {
@@ -148,7 +158,9 @@ class LandingPage extends React.Component {
         ]}
           message={this.state.message}
           onSubmit={this.onSubmitHandler}
-          onChange={this.onChangeHanler}
+          onChange={this.onChangeHandler}
+          onKeyDownHandler={this.onKeyDownHandler}
+          onKeyUpHandler={this.onKeyUpHandler}
           test={"AAAB"}
         />
 
