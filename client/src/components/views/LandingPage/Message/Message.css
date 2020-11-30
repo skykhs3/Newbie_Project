@@ -16,7 +16,6 @@ div{
   margin: 10px 0px;
   /* text-transform: uppercase; */
 }
-
 .message .bubble-container {
   font-size: 14px;
   display: flex;
@@ -73,7 +72,7 @@ div{
 
 .message.mine .bubble-container .bubble {
   background: rgb(234, 159, 57);
-  color: white;
+  color: rgb(38,38,38);
   border-top-left-radius: 13px;
   border-bottom-left-radius: 13px;
   border-top-right-radius: 2px;
@@ -87,4 +86,7 @@ div{
 }
 .deleted{
   color: grey;
+}
+.deleted.mine{
+  color:#f4f4f8;
 }

@@ -14,13 +14,7 @@ const styles = {
 export default class Compose extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.value);
   }
-  onTest=(event)=>{
-    console.log(event.target.value);
-  }
-
-
   render(){
     return (
       <div className="compose">

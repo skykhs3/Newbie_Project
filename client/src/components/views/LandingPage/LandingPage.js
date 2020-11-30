@@ -2,15 +2,14 @@ import React from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import "./LandingPage.css"
-import socketIOClient from "socket.io-client";
+
 import XMessage from './Message'
 import ToolbarButton from './ToolbarButton'
 import Compose from "./Compose"
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { IconButton } from "@material-ui/core"
+import socket from '../../../utils/socket'
 
-const socket = socketIOClient("http://whale.sparcs.org:45000");
-//const socket = socketIOClient("localhost:5000");
 function parseTime(time) {
   return time.substring(0, 16);
 }
@@ -37,9 +36,6 @@ class LandingPage extends React.Component {
     socket.emit('reset',);
     socket.on('receive message', (res) => {
       console.log("Receive msg");
-      console.log(res);
-
-
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         this.setState({ messageList: res });
         // you're at the bottom of the page
