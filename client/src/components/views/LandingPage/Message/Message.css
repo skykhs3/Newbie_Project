@@ -85,3 +85,6 @@ div{
   margin-right: 5px;
   margin-left: 5px;
 }
+.deleted{
+  color: grey;
+}

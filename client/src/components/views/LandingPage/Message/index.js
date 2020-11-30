@@ -64,15 +64,21 @@ export default function XMessage(props) {
             </div>):null}
               <div className="bubble-container">
 
-                 {isMine==true?<div className="timeStamp"> 
+                 {isMine===true?<div className="timeStamp"> 
                   {isShowTime===true? parseTime(data.date):null}
                   </div>:null}
                 <div className="bubble">
+                  {data.isDeleted===true ? 
+
+                  //Todo className 여러개.
+                  <div className="deleted">It is a deleted messasge.</div>:
                   <Linkify  componentDecorator={componentDecorator}>
                   { data.content }
                   </Linkify>
+                  }
+                  
                 </div>
-                {isMine==false?<div className="timeStamp"> 
+                {isMine===false?<div className="timeStamp"> 
                   {isShowTime===true? parseTime(data.date):null}
                   </div>:null}
               </div>

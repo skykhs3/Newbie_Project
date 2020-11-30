@@ -18,7 +18,8 @@ const messageSchema = new mongoose.Schema({
   content:String,
   name:String,
   email:String,
-  date:String
+  date:String,
+  isDeleted:Boolean,
 })
 
 //이게 이름이구나. s가 붙고, 소문자가 된다.
@@ -59,8 +60,7 @@ app.io.on('connection', socket => {
   
 
     const todos=await messageModel.find();
- //   app.io.emit('receive message', {name:item.name, message:item.message});
- app.io.emit('receive message', todos);
+    app.io.emit('receive message', todos);
    // console.log(todos);
 	});
     socket.on('disconnect', function () {
