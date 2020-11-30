@@ -79,7 +79,7 @@ class LandingPage extends React.Component {
   }
   onChangeHandler = (event) => {
     this.setState({ message: event.target.value });
-    console.log("채팅입력 : "+event.target.value);
+   // console.log("채팅입력 : "+event.target.value);
   }
   onClickHandler = (event) => {
     axios.get('/api/users/logout').then(response => {
