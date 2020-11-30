@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Linkify from 'react-linkify'
 import './Message.css';
 
 function parseTime(time){
@@ -38,6 +39,11 @@ export default function XMessage(props) {
   // `${startsSequence ? 'start' : ''}`,
   // `${endsSequence ? 'end' : ''}`
   //     ].join(' '));
+  const componentDecorator = (href, text, key) => (
+    <a href={href} key={key} target="_blank">
+      {text}
+    </a>
+  );
     return (
   <div>
             <div className={[
@@ -62,7 +68,9 @@ export default function XMessage(props) {
                   {isShowTime===true? parseTime(data.date):null}
                   </div>:null}
                 <div className="bubble">
+                  <Linkify  componentDecorator={componentDecorator}>
                   { data.content }
+                  </Linkify>
                 </div>
                 {isMine==false?<div className="timeStamp"> 
                   {isShowTime===true? parseTime(data.date):null}
